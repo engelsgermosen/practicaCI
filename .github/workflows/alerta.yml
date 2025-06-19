@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3 # Clona el repositorio para el workflow :contentReference[oaicite:10]{index=10}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Run Hello World
+        run: node index.js # Ejecuta el script “Hello World” :contentReference[oaicite:11]{index=11}
+
+      - name: Send ntfy notification
+        env:
+          NTFY_URL: https://ntfy.sh/devops-itla
+        run: |
+          curl -s \
+            -H "Title: Build Notification" \
+            -H "Content-Type: text/plain" \
+            --data-binary "Repo: ${{ github.repository }} | Commit: ${{ github.sha }} | Status: ${{ job.status }}" \
+            $NTFY_URL                    # Envía la alerta a ntfy.sh/devops-itla :contentReference[oaicite:12]{index=12}
