@@ -1,1 +1,1 @@
-console.log("Hello world! germosne");
+console.log("Hello world! This is a Node.js application.");
